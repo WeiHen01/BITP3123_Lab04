@@ -37,10 +37,10 @@ public interface OrderTypeRepository extends JpaRepository<OrderType, Long> {
 	public abstract List<OrderType> findByOrderByNameAsc();
 	
 	/*
-	 * From Lecture Week 11
+	 * Lab 11 - Task 8.1
+	 * This creates a custom query
 	 */
-	// Custom query
 	@Query(value = "select * from OrderType where code like '%PU%'",
 			nativeQuery = true)
-	public List<OrderType> findByCode();
+	public List<Object[]> selectCustomByCode();
 }
