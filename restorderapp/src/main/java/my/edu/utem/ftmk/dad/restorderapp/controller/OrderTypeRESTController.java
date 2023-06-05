@@ -1,6 +1,7 @@
 package my.edu.utem.ftmk.dad.restorderapp.controller;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -94,7 +95,63 @@ public class OrderTypeRESTController {
 	{
 		return orderTypeRepository.findByOrderByNameAsc();
 	}
+	
+	
+	/*
+	 * Lab Week 11 Task 8.2
+	 * This method demonstrate the invocation of custom query and return the
+	 * result in Object form.
+	 * 
+	 * @return A list of objects where value of each field in separated arrays
+	 */
+	@GetMapping("/find/pickup/raw")
+	public List<Object[]> getRawPickUpOrderCode(){
 		
+		// Execute query method
+		List<Object[]> objOrderTypes = orderTypeRepository.selectCustomByCode();
+		
+		// For debugging purpose
+		for(Object[] objOrderType: objOrderTypes) {
+			
+			for(Object currentObject: objOrderType) {
+				
+				System.out.println(currentObject.toString());
+			}
+		}
+		
+		return objOrderTypes;
+	}
+		
+	
+	/**
+	 * Lab Week 11 Task 8.4
+	 * This method demonstrate the invocation of custom query
+	 * 
+	 * @return A list of objects where result of query execution wrap in
+	 * OrderType
+	 */
+	@GetMapping("/find/pickup/wrap")
+	public List<OrderType> getWrapPickUpOrderCode() {
+		
+		// Execute query method
+		List<Object[]> objOrderTypes = orderTypeRepository.selectCustomByCode();
+		
+		// Wrap result in a list of order type
+		List<OrderType> orderTypes = new ArrayList<OrderType>();
+		for (Object[] objOrderType:objOrderTypes) {
+			
+			// Wrap in order type
+			OrderType orderType = new OrderType();
+			orderType.setCode(objOrderType[0].toString());
+			orderType.setName(objOrderType[1].toString());
+			
+			// Add into list
+			orderTypes.add(orderType);
+		}
+		
+		return orderTypes;
+	}
+	
 	// retrieve all order types detail
 	@GetMapping
 	public List<OrderType> getOrderTypes()
