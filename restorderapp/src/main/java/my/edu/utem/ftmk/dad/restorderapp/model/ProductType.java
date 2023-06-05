@@ -20,7 +20,9 @@ public class ProductType {
 	@Column(name = "name")
 	private String name;
 
-	
+	// Implement one to many
+	// @JsonIgnore
+	// @JsonManaged
 	public int getProductTypeId() {
 		return productTypeId;
 	}
